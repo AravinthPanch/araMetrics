@@ -13,13 +13,19 @@ import os.path
 from config import *
 from api import google_api_login
 
+metrics_table = {
+    'tasks': {'done': 0, 'in-progress': 0, 'incomplete': 0},
+    'events': {'done': 0, 'in-progress': 0, 'incomplete': 0}
+}
+
 
 def retrieve_cal_events(cal_service, calendar_id):
     "Call the Calendar API"
 
     # 'Z' indicates UTC time
-    now = datetime.datetime(2019,12,22).isoformat() + 'Z'
-    events_result = cal_service.events().list(calendarId=calendar_id, timeMin=now,
+    time_min = datetime.datetime(2019, 12, 22, 00, 00).isoformat() + 'Z'
+    time_max = datetime.datetime(2019, 12, 22, 23, 00).isoformat() + 'Z'
+    events_result = cal_service.events().list(calendarId=calendar_id, timeMin=time_min, timeMax=time_max,
                                               singleEvents=True, orderBy='startTime').execute()
     events = events_result.get('items', [])
     return events
@@ -44,7 +50,17 @@ def get_tasks_count(cal_service):
     "Count number of tasks"
 
     cal_events = retrieve_cal_events(cal_service, cal_tasks['done'])
+    print('cal_events')
     print_cal_events(cal_events)
+
+    cal_events_count = 0
+    for event in cal_events:
+        cal_events_count = cal_events_count + 1
+    print('cal_event_count')
+    print(cal_events_count)
+
+    metrics_table['tasks']['done'] = cal_events_count
+    pprint.pprint(metrics_table)
 
 
 def main():
