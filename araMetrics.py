@@ -10,15 +10,9 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from config import *
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-
-
-def main():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
+def google_api_login():
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -38,22 +32,31 @@ def main():
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
+    global service
     service = build('calendar', 'v3', credentials=creds)
 
+
+def retrieve_cal_events():
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
+
     events = events_result.get('items', [])
 
+    # print results
     if not events:
         print('No upcoming events found.')
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
 
+
+def main():
+    google_api_login()
+    retrieve_cal_events()
 
 if __name__ == '__main__':
     main()
