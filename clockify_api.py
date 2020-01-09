@@ -12,7 +12,7 @@ import datetime
 from config import *
 
 
-def clockify_get_tasks():
+def clockify_api_get_tasks():
     r = requests.get(
         CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/', headers=CLOCKFIFY_HEADER)
     tasks = r.json()
@@ -22,7 +22,7 @@ def clockify_get_tasks():
         print(task['timeInterval']['duration'])
 
 
-def clockify_set_tasks():
+def clockify_api_set_tasks():
     task = {
         "name": "Task from API",
         "projectId": CLOCKFIFY_PROJECT_ID
@@ -34,7 +34,7 @@ def clockify_set_tasks():
     print r.text
 
 
-def clockify_set_time_entry(task_description, project_id):
+def clockify_api_set_time_entry(task_description, project_id):
     now = datetime.datetime.now()
     start = datetime.datetime(
         now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'

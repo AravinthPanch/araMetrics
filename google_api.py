@@ -47,7 +47,7 @@ def google_api_login():
     return service
 
 
-def retrieve_cal_events(cal_service, calendar_id):
+def google_api_retrieve_cal_events(cal_service, calendar_id):
     "Call the Calendar API"
 
     # 'Z' indicates UTC time
@@ -59,7 +59,7 @@ def retrieve_cal_events(cal_service, calendar_id):
     return events
 
 
-def print_cal_events(cal_events):
+def google_api_print_cal_events(cal_events):
     if not cal_events:
         print('No upcoming cal_events found.')
     for event in cal_events:
@@ -67,19 +67,19 @@ def print_cal_events(cal_events):
         print(start, event['summary'])
 
 
-def get_cal_list(cal_service):
+def google_api_get_cal_list(cal_service):
     "Get list of all the calendars"
 
     cal_list = cal_service.calendarList().list(pageToken=None).execute()
     pprint.pprint(cal_list)
 
 
-def get_tasks_count(cal_service):
+def google_api_get_tasks_count(cal_service):
     "Count number of tasks"
 
-    cal_events = retrieve_cal_events(cal_service, cal_tasks['done'])
+    cal_events = google_api_retrieve_cal_events(cal_service, cal_tasks['done'])
     print('cal_events')
-    print_cal_events(cal_events)
+    google_api_print_cal_events(cal_events)
 
     cal_events_count = 0
     for event in cal_events:

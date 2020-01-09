@@ -10,11 +10,10 @@ from clockify_api import *
 
 
 def main():
-    cal_service = google_api_login()
-    get_tasks_count(cal_service)
-    clockify_set_time_entry('#AC #Develop araMetrics #araMetrics',
-                        CLOCKFIFY_PROJECT_ID)
-
+    calendar = google_api_login()
+    google_api_get_tasks_count(calendar)
+    clockify_api_set_time_entry(
+        '#AC #Develop araMetrics #araMetrics', CLOCKFIFY_PROJECT_ID)
 
 
 if __name__ == '__main__':
