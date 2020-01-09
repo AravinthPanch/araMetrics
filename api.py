@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 import requests
 import pprint
 import json
+import datetime
 
 from config import *
 
@@ -57,11 +58,18 @@ def clockify_set_tasks():
     print r.text
 
 
-def clockify_set_time_entry():
+def clockify_set_time_entry(task_description, project_id):
+    now = datetime.datetime.now()
+    start = datetime.datetime(
+        now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'
+    end = datetime.datetime(now.year, now.month, now.day,
+                            00, 00, 02).isoformat() + 'Z'
+
     time_entry = {
-        "start": "2018-06-12T13:48:14.000Z",
-        "description": "Writing documentation",
-        "projectId": CLOCKFIFY_PROJECT_ID
+        "start": start,
+        "end": end,
+        "description": task_description,
+        "projectId": project_id
     }
 
     r = requests.post(

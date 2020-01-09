@@ -66,9 +66,7 @@ def get_tasks_count(cal_service):
 def main():
     # cal_service = google_api_login()
     # get_tasks_count(cal_service)
-    # clockify_get_tasks()
-    # clockify_set_tasks()
-    clockify_set_time_entry()
+    clockify_set_time_entry('#AC #Develop araMetrics #araMetrics', CLOCKFIFY_PROJECT_ID)
 
 
 if __name__ == '__main__':
