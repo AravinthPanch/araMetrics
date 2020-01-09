@@ -36,10 +36,8 @@ def clockify_api_set_tasks():
 
 def clockify_api_set_time_entry(task_description, project_id):
     now = datetime.datetime.now()
-    start = datetime.datetime(
-        now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'
-    end = datetime.datetime(now.year, now.month, now.day,
-                            00, 00, 02).isoformat() + 'Z'
+    start = datetime.datetime(now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'
+    end = datetime.datetime(now.year, now.month, now.day, 00, 00, 02).isoformat() + 'Z'
 
     time_entry = {
         "start": start,
@@ -49,6 +47,7 @@ def clockify_api_set_time_entry(task_description, project_id):
     }
 
     r = requests.post(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/', headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/',
+        headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
 
     print r.text
