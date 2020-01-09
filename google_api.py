@@ -92,30 +92,3 @@ def google_api_get_tasks_count(cal_service):
 
     metrics_table['tasks']['done'] = cal_events_count
     pprint.pprint(metrics_table)
-
-
-def google_api_cal_events_parser(cal_events):
-    # google_api_print_cal_events(cal_events)
-
-    tasks = []
-
-    if not cal_events:
-        return None
-    for event in cal_events:
-        task_str_array = event['summary'].split('#')
-        if len(task_str_array) > 2:
-            task = {
-                'project': task_str_array[1],
-                'todo': task_str_array[2],
-                'tag': task_str_array[3],
-            }
-            tasks.extend([task])
-
-    pprint.pprint(tasks)
-    return tasks
-
-
-def google_api_get_todo_events(cal_service):
-    "Get all today's events which have to be schduled as tasks"
-    cal_events = google_api_retrieve_cal_events(cal_service, cal_tasks['todo'])
-    return google_api_cal_events_parser(cal_events)

@@ -51,3 +51,7 @@ def clockify_api_set_time_entry(task_description, project_id):
         headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
 
     print r.text
+
+def clockify_api_set_time_entries(tasks_array):
+    for task in tasks_array:
+        clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'])

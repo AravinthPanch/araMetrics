@@ -7,13 +7,14 @@
 from config import *
 from google_api import *
 from clockify_api import *
+from utils import *
 
 
 def main():
     calendar = google_api_login()
-    google_api_get_todo_events(calendar)
-    # clockify_api_set_time_entry(
-    #     '#AC #Develop araMetrics #araMetrics', CLOCKFIFY_PROJECT_ID)
+    cal_events = google_api_retrieve_cal_events(calendar, GOOGLE_CALENDARS['todo'])
+    tasks = utils_cal_events_parser(cal_events)
+    clockify_api_set_time_entries(tasks)
 
 
 if __name__ == '__main__':
