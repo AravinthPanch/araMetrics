@@ -3,7 +3,12 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import requests
+import pprint
+
+from keys import *
 from config import *
+
 
 def google_api_login():
     creds = None
@@ -28,3 +33,15 @@ def google_api_login():
     service = build('calendar', 'v3', credentials=creds)
 
     return service
+
+
+def clockify_get_tasks():
+    headers = {'content-type': 'application/json',
+               'X-Api-Key': CLOCKFIFY_API_KEY}
+    r = requests.get(
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_USER + '/timeEntries/', headers=headers)
+    tasks = r.json()
+    # pprint.pprint (tasks)
+
+    for task in tasks:
+        print(task['timeInterval']['duration'])

@@ -7,3 +7,5 @@ cal_tasks = {
     'in-progress': 'aravinth.info_eklo4n5fmduvgfd4tdrnjahjbs@group.calendar.google.com',
     'incomplete': 'aravinth.info_4i7u5rc7km6k313hatp43qti44@group.calendar.google.com'
 }
+
+CLOCKFIFY_API = 'https://api.clockify.me/api'

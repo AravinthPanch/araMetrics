@@ -12,6 +12,7 @@ import pickle
 import os.path
 from config import *
 from api import google_api_login
+from api import clockify_get_tasks
 
 metrics_table = {
     'tasks': {'done': 0, 'in-progress': 0, 'incomplete': 0},
@@ -64,8 +65,9 @@ def get_tasks_count(cal_service):
 
 
 def main():
-    cal_service = google_api_login()
-    get_tasks_count(cal_service)
+    # cal_service = google_api_login()
+    # get_tasks_count(cal_service)
+    clockify_get_tasks()
 
 
 if __name__ == '__main__':
