@@ -1,3 +1,5 @@
+from keys import *
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
@@ -9,3 +11,6 @@ cal_tasks = {
 }
 
 CLOCKFIFY_API = 'https://api.clockify.me/api'
+CLOCKFIFY_HEADER = {
+    'content-type': 'application/json', 'X-Api-Key': CLOCKFIFY_API_KEY}
+CLOCKFIFY_PROJECT_ID = '5e17555070e4883ef6992faf'
