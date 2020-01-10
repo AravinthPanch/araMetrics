@@ -11,9 +11,18 @@ from utils import *
 
 
 def main():
-    calendar = google_api_login()
-    cal_events = google_api_retrieve_cal_events(calendar, GOOGLE_CALENDARS['todo'])
-    tasks = utils_cal_events_parser(cal_events)
+    cal_service = google_api_login()
+    cal_events = google_api_retrieve_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'])
+    tasks = utils_parse_cal_events(cal_events)
+    clockify_api_set_time_entries(tasks)
+    cal_events = google_api_retrieve_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_DONE'])
+    tasks = utils_parse_cal_events(cal_events)
+    clockify_api_set_time_entries(tasks)
+    cal_events = google_api_retrieve_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_PROGRESS'])
+    tasks = utils_parse_cal_events(cal_events)
+    clockify_api_set_time_entries(tasks)
+    cal_events = google_api_retrieve_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_INCOMPLETE'])
+    tasks = utils_parse_cal_events(cal_events)
     clockify_api_set_time_entries(tasks)
 
 
