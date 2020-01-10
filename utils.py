@@ -11,12 +11,12 @@
 # - PL - Personal Life
 
 # Sub #tag2
-# - TK - Tasks
-# - ET - Events
-# - LG - Learnings
-# - TG - Teachings
-# - MM - Match Makings
-# - MG - Meetings
+# - TK - TasK
+# - ET - EvenT
+# - LG - LearninG
+# - TG - TeachinG
+# - MM - Match Making
+# - MG - MeetinG
 
 
 import pprint
@@ -37,7 +37,7 @@ def utils_parse_cal_events(cal_events):
             task = {
                 'PROJECT_ID': CLOCKFIFY_PROJECT_IDS[str(task_str_array[1]).strip()],
                 'TODO': event['summary'],
-                'TAG': str(task_str_array[4]).strip(),
+                'TAG_ID': CLOCKFIFY_TAG_IDS[str(task_str_array[2]).strip()],
             }
             tasks.extend([task])
 

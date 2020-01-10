@@ -21,3 +21,11 @@ CLOCKFIFY_PROJECT_IDS = {
     'BS': '5e17a6a30c1cd15d4a807147',
     'PL': '5e17a6f770e4883ef69968cf'
 }
+CLOCKFIFY_TAG_IDS = {
+    'TK': '5e175f7370e4883ef6993f6d',
+    'ET': '5e175fad0c1cd15d4a804819',
+    'LG': '5e18e8a70c1cd15d4a81b973',
+    'TG': '5e18e8df70e4883ef69ab2db',
+    'MM': '5e18e8e41cda2a26697de539',
+    'MG': '5e18e8ea70e4883ef69ab2de'
+}

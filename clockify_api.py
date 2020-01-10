@@ -34,7 +34,7 @@ def clockify_api_set_tasks():
     print r.text
 
 
-def clockify_api_set_time_entry(task_description, project_id):
+def clockify_api_set_time_entry(task_description, project_id, tag_id):
     now = datetime.datetime.now()
     start = datetime.datetime(now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'
     end = datetime.datetime(now.year, now.month, now.day, 00, 00, 02).isoformat() + 'Z'
@@ -43,7 +43,8 @@ def clockify_api_set_time_entry(task_description, project_id):
         "start": start,
         "end": end,
         "description": task_description,
-        "projectId": project_id
+        "projectId": project_id,
+        "tagIds": [tag_id],
     }
 
     r = requests.post(
@@ -52,6 +53,7 @@ def clockify_api_set_time_entry(task_description, project_id):
 
     print r.text
 
+
 def clockify_api_set_time_entries(tasks_array):
     for task in tasks_array:
-        clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'])
+        clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'])
