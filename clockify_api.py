@@ -55,5 +55,6 @@ def clockify_api_set_time_entry(task_description, project_id, tag_id):
 
 
 def clockify_api_set_time_entries(tasks_array):
-    for task in tasks_array:
-        clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'])
+    if tasks_array is not None:
+        for task in tasks_array:
+            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'])

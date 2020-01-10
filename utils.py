@@ -33,7 +33,7 @@ def utils_parse_cal_events(cal_events):
         return None
     for event in cal_events:
         task_str_array = event['summary'].split('#')
-        if len(task_str_array) > 2:
+        if len(task_str_array) > 3:
             task = {
                 'PROJECT_ID': CLOCKFIFY_PROJECT_IDS[str(task_str_array[1]).strip()],
                 'TODO': event['summary'],
