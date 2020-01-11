@@ -21,7 +21,7 @@ def clockify_api_get_current_date_time_entries():
         CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
     time_entries = r.json()
 
-    logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s', pformat(time_entries))
+    logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s\n', pformat(time_entries))
 
     # Filter them by date
     current_date_time_entries = []
@@ -31,7 +31,7 @@ def clockify_api_get_current_date_time_entries():
         if time_entry_date_time.date() == current_date:
             current_date_time_entries.extend([time_entry])
 
-    logging.debug('clockify_api_get_current_date_time_entries : current_date_time_entries : \n %s',
+    logging.debug('clockify_api_get_current_date_time_entries : current_date_time_entries : \n %s\n',
                   pformat(current_date_time_entries))
     return current_date_time_entries
 
@@ -56,7 +56,7 @@ def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_dat
         CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/',
         headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
 
-    logging.debug('clockify_api_set_time_entry : response : \n %s', pformat(response.text))
+    logging.debug('clockify_api_set_time_entry : response : \n %s\n', pformat(response.text))
 
 
 def clockify_api_set_time_entries(tasks_array, cal_date):

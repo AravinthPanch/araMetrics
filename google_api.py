@@ -57,5 +57,5 @@ def google_api_get_cal_events(cal_service, calendar_id, cal_date):
                                          singleEvents=True, orderBy='startTime').execute()
     cal_events = response.get('items', [])
 
-    logging.debug('google_api_get_cal_events : response : \n %s', pformat(cal_events))
+    logging.debug('google_api_get_cal_events : response : \n %s\n', pformat(cal_events))
     return cal_events

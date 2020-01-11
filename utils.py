@@ -52,5 +52,5 @@ def utils_parse_cal_events(cal_events):
             }
             tasks.extend([task])
 
-    logging.debug('utils_parse_cal_events : response : \n %s', pformat(tasks))
+    logging.debug('utils_parse_cal_events : response : \n %s\n', pformat(tasks))
     return tasks

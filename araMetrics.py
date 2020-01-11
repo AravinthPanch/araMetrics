@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-# Author : Aravinth Panch
-# araMetrics is a personal impact measurement system to track metrics such
-# as tasks, events, contacts, expenses, purchases, travels, behaviour, etc
+# Author        : Aravinth Panch
+# Description   : araMetrics is a personal impact measurement system to
+# track metrics such as Awards, Connections, Earnings, Emissions, Events,
+# Expenses, Learnings, Match-Makings, Meetings, Minutes, Practices,
+# Projects, Purchases, Tasks, Teachings, Trips
 
 from config import *
 from google_api import *
@@ -30,4 +32,5 @@ def main():
 
 
 if __name__ == '__main__':
+    print('========== araMetrics ==========')
     main()
