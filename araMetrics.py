@@ -11,7 +11,10 @@ from google_api import *
 from clockify_api import *
 from utils import *
 
-cal_date = datetime.datetime.now().date()
+# cal_date = datetime.datetime.now().date()
+days_offset = 0
+cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                             datetime.datetime.now().day - days_offset).date()
 
 
 def main():

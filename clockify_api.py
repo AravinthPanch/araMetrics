@@ -68,8 +68,11 @@ def clockify_api_set_time_entries(tasks_array, cal_date):
     current_date_time_entries = clockify_api_get_current_date_time_entries()
 
     if len(tasks_array) is 0:
-        logging.error('clockify_api_set_time_entries : No tasks are found in the calendar')
+        logging.error('clockify_api_set_time_entries : No tasks are found in the calendar on %s', cal_date)
         return
+
+    if len(current_date_time_entries) is 0:
+        logging.error('clockify_api_set_time_entries : No time entries are found in clockify on %s', cal_date)
 
     # Check if the task is already entered as a time entry.
     tasks_already_entered_cnt = 0
@@ -87,6 +90,7 @@ def clockify_api_set_time_entries(tasks_array, cal_date):
         if is_task_already_entered == 0:
             clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
             tasks_already_entered_cnt = tasks_already_entered_cnt + 1
+            logging.error('clockify_api_set_time_entries : A task is entered as a time entry')
 
     if tasks_already_entered_cnt is 0:
         logging.error('clockify_api_set_time_entries : No tasks for time entry')
