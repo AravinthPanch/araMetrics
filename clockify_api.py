@@ -11,11 +11,7 @@ import datetime
 
 from config import *
 
-now = datetime.datetime.now()
-time_entry_day = now.day
-time_entry_start = datetime.datetime(now.year, now.month, now.day, 00, 00, 01).isoformat() + 'Z'
-time_entry_end = datetime.datetime(now.year, now.month, now.day, 00, 00, 02).isoformat() + 'Z'
-today_date_only = now.date()
+today_date_only = None
 
 
 def clockify_api_get_today_time_entries():
@@ -52,7 +48,10 @@ def clockify_api_set_tasks():
     print r.text
 
 
-def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id):
+def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_date):
+
+    time_entry_start = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 00, 00, 01).isoformat() + 'Z'
+    time_entry_end = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 00, 00, 02).isoformat() + 'Z'
 
     time_entry = {
         "start": time_entry_start,
@@ -69,8 +68,8 @@ def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id):
     print r.text
 
 
-def clockify_api_set_time_entries(tasks_array):
-
+def clockify_api_set_time_entries(tasks_array, cal_date):
+    today_date_only = cal_date
     today_time_entries = clockify_api_get_today_time_entries()
 
     if len(tasks_array) is 0:
@@ -91,7 +90,7 @@ def clockify_api_set_time_entries(tasks_array):
                 is_task_already_entered = is_task_already_entered + 0
 
         if is_task_already_entered == 0:
-            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'])
+            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
             tasks_entered_cnt = tasks_entered_cnt + 1
 
     if tasks_entered_cnt is 0:

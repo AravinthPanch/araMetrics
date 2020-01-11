@@ -16,13 +16,6 @@ import os.path
 
 from config import *
 
-metrics_table = {
-    'tasks': {'done': 0, 'in-progress': 0, 'incomplete': 0},
-    'events': {'done': 0, 'in-progress': 0, 'incomplete': 0}
-}
-
-now = datetime.datetime.now()
-cal_day = now.day
 
 def google_api_login():
     creds = None
@@ -49,14 +42,12 @@ def google_api_login():
     return service
 
 
-def google_api_retrieve_cal_events(cal_service, calendar_id):
+def google_api_retrieve_cal_events(cal_service, calendar_id, cal_date):
     "Call the Calendar API"
 
-    now = datetime.datetime.now()
-
     # 'Z' indicates UTC time
-    time_min = datetime.datetime(now.year, now.month, cal_day, 0).isoformat() + 'Z'
-    time_max = datetime.datetime(now.year, now.month, cal_day, 23).isoformat() + 'Z'
+    time_min = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 0).isoformat() + 'Z'
+    time_max = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 23).isoformat() + 'Z'
 
     events_result = cal_service.events().list(calendarId=calendar_id, timeMin=time_min, timeMax=time_max,
                                               singleEvents=True, orderBy='startTime').execute()
@@ -77,6 +68,12 @@ def google_api_get_cal_list(cal_service):
 
     cal_list = cal_service.calendarList().list(pageToken=None).execute()
     pprint.pprint(cal_list)
+
+
+metrics_table = {
+    'tasks': {'done': 0, 'in-progress': 0, 'incomplete': 0},
+    'events': {'done': 0, 'in-progress': 0, 'incomplete': 0}
+}
 
 
 def google_api_get_tasks_count(cal_service):
