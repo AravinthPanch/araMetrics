@@ -14,7 +14,7 @@ cal_date = datetime.datetime.now().date()
 
 def main():
     cal_service = google_api_login()
-    cal_events = google_api_retrieve_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
+    cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
     tasks = utils_parse_cal_events(cal_events)
     clockify_api_set_time_entries(tasks, cal_date)
 
