@@ -21,6 +21,8 @@ metrics_table = {
     'events': {'done': 0, 'in-progress': 0, 'incomplete': 0}
 }
 
+now = datetime.datetime.now()
+cal_day = now.day
 
 def google_api_login():
     creds = None
@@ -53,8 +55,8 @@ def google_api_retrieve_cal_events(cal_service, calendar_id):
     now = datetime.datetime.now()
 
     # 'Z' indicates UTC time
-    time_min = datetime.datetime(now.year, now.month, now.day, 0).isoformat() + 'Z'
-    time_max = datetime.datetime(now.year, now.month, now.day, 23).isoformat() + 'Z'
+    time_min = datetime.datetime(now.year, now.month, cal_day, 0).isoformat() + 'Z'
+    time_max = datetime.datetime(now.year, now.month, cal_day, 23).isoformat() + 'Z'
 
     events_result = cal_service.events().list(calendarId=calendar_id, timeMin=time_min, timeMax=time_max,
                                               singleEvents=True, orderBy='startTime').execute()
