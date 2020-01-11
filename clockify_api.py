@@ -8,31 +8,32 @@ import requests
 import pprint
 import json
 import datetime
+import logging
+from pprint import pformat
 
 from config import *
 
-today_date_only = None
-
 
 def clockify_api_get_today_time_entries():
+    "Get time entries for the given day. Clockify API is not filtering with &start=' + time_entry_start+ '&end=' + time_entry_end"
 
-    # Clockify API is not filtering with &start=' + time_entry_start+ '&end=' + time_entry_end
+    # GET request
     r = requests.get(
         CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
-
     time_entries = r.json()
-    # pprint.pprint(time_entries)
 
-    today_time_entries = []
+    # pprint.pprint(time_entries)
+    logging.debug('clockify_api_get_today_time_entries : time_entries : \n %s', pformat(time_entries))
+
     # Filter them by date
+    today_time_entries = []
     for time_entry in time_entries['timeEntriesList']:
         time_entry_date_time = datetime.datetime.strptime(time_entry['timeInterval']['start'], '%Y-%m-%dT%H:%M:%SZ')
-        time_entry_date_only = time_entry_date_time.date()
 
-        if time_entry_date_only == today_date_only:
+        if time_entry_date_time.date() == current_date:
             today_time_entries.extend([time_entry])
 
-    # pprint.pprint(today_time_entries)
+    logging.warning('clockify_api_get_today_time_entries : today_time_entries : \n %s', pformat(today_time_entries))
     return today_time_entries
 
 
@@ -69,7 +70,8 @@ def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_dat
 
 
 def clockify_api_set_time_entries(tasks_array, cal_date):
-    today_date_only = cal_date
+    global current_date
+    current_date = cal_date
     today_time_entries = clockify_api_get_today_time_entries()
 
     if len(tasks_array) is 0:
@@ -90,7 +92,7 @@ def clockify_api_set_time_entries(tasks_array, cal_date):
                 is_task_already_entered = is_task_already_entered + 0
 
         if is_task_already_entered == 0:
-            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
+            # clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
             tasks_entered_cnt = tasks_entered_cnt + 1
 
     if tasks_entered_cnt is 0:
