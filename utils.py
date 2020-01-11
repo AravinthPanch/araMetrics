@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Author        : Aravinth Panch
+# Description   : This contains various utilities used in this project
+
 # Mappings
 
 # Projects #tag1
@@ -22,17 +25,25 @@
 import pprint
 import json
 import datetime
+import logging
+from pprint import pformat
 
 from config import *
 
 
 def utils_parse_cal_events(cal_events):
-    tasks = []
+    "Parse calendar events with the mapping protocol to include Clockify IDs"
 
     if not cal_events:
-        return None
+        logging.error('utils_parse_cal_events : No tasks are found in the calendar')
+        return
+
+    tasks = []
     for event in cal_events:
+        # Separate the calendar event summary by #
         task_str_array = event['summary'].split('#')
+
+        # Ignore calendar events which are not tasks
         if len(task_str_array) > 3:
             task = {
                 'PROJECT_ID': CLOCKFIFY_PROJECT_IDS[str(task_str_array[1]).strip()],
@@ -41,5 +52,5 @@ def utils_parse_cal_events(cal_events):
             }
             tasks.extend([task])
 
-    pprint.pprint(tasks)
+    logging.debug('utils_parse_cal_events : response : \n %s', pformat(tasks))
     return tasks

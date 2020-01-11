@@ -21,7 +21,6 @@ def clockify_api_get_current_date_time_entries():
         CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
     time_entries = r.json()
 
-    # pprint.pprint(time_entries)
     logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s', pformat(time_entries))
 
     # Filter them by date
@@ -69,7 +68,7 @@ def clockify_api_set_time_entries(tasks_array, cal_date):
     current_date_time_entries = clockify_api_get_current_date_time_entries()
 
     if len(tasks_array) is 0:
-        print('No tasks are found in the calendar')
+        logging.error('clockify_api_set_time_entries : No tasks are found in the calendar')
         return
 
     # Check if the task is already entered as a time entry.
