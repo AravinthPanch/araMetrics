@@ -90,7 +90,59 @@ def clockify_api_set_time_entries(tasks_array, cal_date):
         if is_task_already_entered == 0:
             clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
             tasks_already_entered_cnt = tasks_already_entered_cnt + 1
-            logging.error('clockify_api_set_time_entries : A task is entered as a time entry')
+            logging.error('clockify_api_set_time_entries : A task is entered as a time entry on %s', cal_date)
 
     if tasks_already_entered_cnt is 0:
-        logging.error('clockify_api_set_time_entries : No tasks for time entry')
+        logging.error('clockify_api_set_time_entries : No tasks for time entry on %s', cal_date)
+
+
+def clockify_api_delete_time_entry(time_entry_id):
+    "Delete a time entry for the given time entry id"
+
+    # DELETE request
+    response = requests.delete(
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/' + time_entry_id,
+        headers=CLOCKFIFY_HEADER)
+
+    logging.debug('clockify_api_delete_time_entry : response : \n %s\n', pformat(response.text))
+
+
+def clockify_api_update_time_entries(tasks_array, cal_date):
+    "Clean up time entries by cross checking the current list of tasks and date"
+
+    # Set current date and get time entries for the given date
+    global current_date
+    current_date = cal_date
+    current_date_time_entries = clockify_api_get_current_date_time_entries()
+
+    if len(tasks_array) is 0:
+        logging.error('clockify_api_update_time_entries : No tasks are found in the calendar on %s', cal_date)
+
+    if len(current_date_time_entries) is 0:
+        logging.error('clockify_api_update_time_entries : No time entries are found in clockify on %s', cal_date)
+
+    # Check if the time entry is still on the calendar as task
+    time_entries_removed_cnt = 0
+    for time_entry in current_date_time_entries:
+        is_task_on_calendar = 0
+        for task in tasks_array:
+            if time_entry['description'] == task['TODO']:
+                is_task_on_calendar = is_task_on_calendar + 1
+            else:
+                is_task_on_calendar = is_task_on_calendar + 0
+
+        if is_task_on_calendar == 0:
+            # Delete if time entry in Clockify was not started. Sometimes task might
+            # have been accidentally removed from the calendar, but time entry was
+            # made in the clockify
+            if time_entry['timeInterval']['duration'] == 'PT1S':
+                clockify_api_delete_time_entry(time_entry['id'])
+                time_entries_removed_cnt = time_entries_removed_cnt + 1
+                logging.debug('clockify_api_update_time_entries : A time entry should be removed %s\n', pformat(time_entry))
+
+    if time_entries_removed_cnt == 0:
+        logging.error(
+            'clockify_api_update_time_entries : All time entries are cross checked with calendar events on %s', cal_date)
+    else:
+        logging.error('clockify_api_update_time_entries : %s time entries are removed on %s',
+                      time_entries_removed_cnt, cal_date)

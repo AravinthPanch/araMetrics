@@ -20,6 +20,7 @@
 # - TG - TeachinG
 # - MM - Match Making
 # - MG - MeetinG
+# - EG - EntertaininG
 
 
 import pprint
