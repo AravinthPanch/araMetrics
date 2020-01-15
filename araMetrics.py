@@ -10,10 +10,24 @@ from config import *
 from google_api import *
 from clockify_api import *
 from utils import *
+import sys
 
-days_offset = 0
-cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
-                             datetime.datetime.now().day - days_offset).date()
+
+def get_current_day_for_operation():
+    "Create a datetime with the chosen day"
+
+    # Take day of operation as command line input
+    days_offset = 0
+
+    # Take only one argument, one digit and less than a week
+    # If there is no argument, just choose the present day
+    if len(sys.argv) == 2 and len(sys.argv[1]) == 1 and int(sys.argv[1]) <= 7:
+        days_offset = int(sys.argv[1])
+
+    cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                                 datetime.datetime.now().day - days_offset).date()
+
+    return cal_date
 
 
 def clean_up_time_entries(cal_service, todo_cal_events):
@@ -44,6 +58,8 @@ def clean_up_time_entries(cal_service, todo_cal_events):
 
 if __name__ == '__main__':
     print('========== araMetrics ==========')
+
+    cal_date = get_current_day_for_operation()
 
     cal_service = google_api_login()
     cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
