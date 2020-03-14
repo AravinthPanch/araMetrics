@@ -60,6 +60,17 @@ def get_commandline_arguments():
         return 0
 
 
+def duplicate_to_another_workspace():
+    "Duplicate time entries from araMetrics workspace to dreamspace workspace"
+
+    print('\naraMetrics Workspace')
+    ds_cal_date = get_current_day_for_operation(2)
+    arametrics_time_entries = clockify_api_get_current_date_time_entries(ds_cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+    print('\nDreamspace Workspace')
+    dreamspace_time_entries = utils_parse_workspace_time_entries(arametrics_time_entries)
+    clockify_api_set_time_entries(dreamspace_time_entries, ds_cal_date, CLOCKFIFY_DREAMSPACE_WORKSPACE_ID)
+
+
 if __name__ == '__main__':
     print('========== araMetrics ==========')
 
@@ -84,9 +95,12 @@ if __name__ == '__main__':
 
     # Duplicate time entries from araMetrics workspace to dreamspace workspace
     print('\n=== Duplicating Clockify araMetrics to DreamSpace')
-    print('\naraMetrics Workspace')
-    ds_cal_date = get_current_day_for_operation(2)
-    arametrics_time_entries = clockify_api_get_current_date_time_entries(ds_cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
-    print('\nDreamspace Workspace')
-    dreamspace_time_entries = utils_parse_workspace_time_entries(arametrics_time_entries)
-    clockify_api_set_time_entries(dreamspace_time_entries, ds_cal_date, CLOCKFIFY_DREAMSPACE_WORKSPACE_ID)
+    duplicate_to_another_workspace()
+
+    # Clean up unused day-to-day tasks
+    print('\n=== Cleaning up unused day-to-day tasks')
+    clockify_clean_daily_tasks(cal_date)
+
+    # Create usual day-to-day tasks
+    print('\n=== Creating usual day-to-day tasks')
+    clockify_create_daily_tasks(cal_date)

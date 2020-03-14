@@ -11,6 +11,7 @@ import logging
 from pprint import pformat
 
 from config import *
+from utils import *
 
 
 def clockify_api_get_current_date_time_entries(cal_date, workspace_id):
@@ -140,5 +141,44 @@ def clockify_api_update_time_entries(tasks_array, cal_date, workspace_id):
         logging.error(
             'clockify_api_update_time_entries : All time entries are cross checked with calendar events on %s', cal_date)
     else:
+        logging.error('clockify_api_update_time_entries : %s time entries are removed on %s',
+                      time_entries_removed_cnt, cal_date)
+
+def clockify_create_daily_tasks(cal_date):
+    "Create usual day-to-day tasks such as commuting, learning, sleeping"
+
+    cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                                 cal_date.day + 1).date()
+    life_entries = [
+        {'summary': '#PL #LF #Sport #health'},
+        {'summary': '#PL #LF #Movie #fun'},
+        {'summary': '#PL #LF #Commute #travel'},
+        {'summary': '#PL #LF #Wash #health'},
+        {'summary': '#AC #LG #Learning #GK'},
+        {'summary': '#AC #TK #Follow up #org'},
+        {'summary': '#DS #TK #Follow up #org'},
+        {'summary': '#BS #TK #Follow up #org'},
+        {'summary': '#WG #TK #Follow up #org'},
+        {'summary': '#ML #TK #Follow up #org'}
+    ]
+    tasks = utils_parse_cal_events(life_entries, cal_date)
+    clockify_api_set_time_entries(tasks, cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+
+
+def clockify_clean_daily_tasks(cal_date):
+    "Clean up unused daily tasks"
+
+    cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                                 cal_date.day - 1).date()
+    current_date_time_entries = clockify_api_get_current_date_time_entries(cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+
+    time_entries_removed_cnt = 0
+    for time_entry in current_date_time_entries:
+        if time_entry['timeInterval']['duration'] == 'PT1S':
+            clockify_api_delete_time_entry(time_entry['id'])
+            time_entries_removed_cnt = time_entries_removed_cnt + 1
+            logging.debug('clockify_api_update_time_entries : A time entry should be removed %s\n', pformat(time_entry))
+
+    if time_entries_removed_cnt > 0:
         logging.error('clockify_api_update_time_entries : %s time entries are removed on %s',
                       time_entries_removed_cnt, cal_date)

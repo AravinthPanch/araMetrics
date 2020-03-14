@@ -30,7 +30,7 @@ CLOCKFIFY_ARAMETRICS_TAG_IDS = {
     'TG': '5e18e8df70e4883ef69ab2db',
     'MM': '5e18e8e41cda2a26697de539',
     'MG': '5e18e8ea70e4883ef69ab2de',
-    'EG': '5e1a4fdb0c1cd15d4a820c4e'
+    'LF': '5e1a4fdb0c1cd15d4a820c4e'
 }
 
 # dreamspace-academy workspace
