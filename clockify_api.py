@@ -13,12 +13,12 @@ from pprint import pformat
 from config import *
 
 
-def clockify_api_get_current_date_time_entries():
+def clockify_api_get_current_date_time_entries(cal_date, workspace_id):
     "Get time entries for the given day. Clockify API is not filtering with &start=' + time_entry_start+ '&end=' + time_entry_end"
 
     # GET request
     r = requests.get(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_ARAMETRICS_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
+        CLOCKFIFY_API + '/workspaces/' + workspace_id + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
     time_entries = r.json()
 
     logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s\n', pformat(time_entries))
@@ -28,7 +28,7 @@ def clockify_api_get_current_date_time_entries():
     for time_entry in time_entries['timeEntriesList']:
         time_entry_date_time = datetime.datetime.strptime(time_entry['timeInterval']['start'], '%Y-%m-%dT%H:%M:%SZ')
 
-        if time_entry_date_time.date() == current_date:
+        if time_entry_date_time.date() == cal_date:
             current_date_time_entries.extend([time_entry])
 
     logging.debug('clockify_api_get_current_date_time_entries : current_date_time_entries : \n %s\n',
@@ -59,13 +59,11 @@ def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_dat
     logging.debug('clockify_api_set_time_entry : response : \n %s\n', pformat(response.text))
 
 
-def clockify_api_set_time_entries(tasks_array, cal_date):
+def clockify_api_set_time_entries(tasks_array, cal_date, workspace_id):
     "Create time entries for the given list of tasks and date "
 
-    # Set current date and get time entries for the given date
-    global current_date
-    current_date = cal_date
-    current_date_time_entries = clockify_api_get_current_date_time_entries()
+    # Get time entries for the given date
+    current_date_time_entries = clockify_api_get_current_date_time_entries(cal_date, workspace_id)
 
     if len(tasks_array) is 0:
         logging.error('clockify_api_set_time_entries : No tasks are found in the calendar on %s', cal_date)
@@ -107,13 +105,11 @@ def clockify_api_delete_time_entry(time_entry_id):
     logging.debug('clockify_api_delete_time_entry : response : \n %s\n', pformat(response.text))
 
 
-def clockify_api_update_time_entries(tasks_array, cal_date):
+def clockify_api_update_time_entries(tasks_array, cal_date, workspace_id):
     "Clean up time entries by cross checking the current list of tasks and date"
 
-    # Set current date and get time entries for the given date
-    global current_date
-    current_date = cal_date
-    current_date_time_entries = clockify_api_get_current_date_time_entries()
+    # Get time entries for the given date
+    current_date_time_entries = clockify_api_get_current_date_time_entries(cal_date, workspace_id)
 
     if len(tasks_array) is 0:
         logging.error('clockify_api_update_time_entries : No tasks are found in the calendar on %s', cal_date)

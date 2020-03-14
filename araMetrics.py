@@ -23,7 +23,7 @@ def get_current_day_for_operation(days_offset):
     return cal_date
 
 
-def clean_up_time_entries(cal_service, todo_cal_events):
+def clean_up_time_entries(cal_service, todo_cal_events, workspace_id):
     "Get events from all the calendars, merge them and cross check them with time entries in Clockify and clean up the time entries, if they are still on the calendar as tasks"
     done_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_DONE'], cal_date)
     progress_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_PROGRESS'], cal_date)
@@ -46,7 +46,7 @@ def clean_up_time_entries(cal_service, todo_cal_events):
     logging.debug('clean_up_time_entries : all_cal_events : \n %s\n %s', pformat(all_cal_events), len(all_cal_events))
 
     all_tasks = utils_parse_cal_events(all_cal_events)
-    clockify_api_update_time_entries(all_tasks, cal_date)
+    clockify_api_update_time_entries(all_tasks, cal_date, workspace_id)
 
 
 def get_commandline_arguments():
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     cal_service = google_api_login()
     cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
 
-    clean_up_time_entries(cal_service, cal_events)
+    clean_up_time_entries(cal_service, cal_events, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
 
     tasks = utils_parse_cal_events(cal_events)
-    clockify_api_set_time_entries(tasks, cal_date)
+    clockify_api_set_time_entries(tasks, cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
