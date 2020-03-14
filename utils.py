@@ -47,9 +47,9 @@ def utils_parse_cal_events(cal_events):
         # Ignore calendar events which are not tasks
         if len(task_str_array) > 3:
             task = {
-                'PROJECT_ID': CLOCKFIFY_PROJECT_IDS[str(task_str_array[1]).strip()],
+                'PROJECT_ID': CLOCKFIFY_ARAMETRICS_PROJECT_IDS[str(task_str_array[1]).strip()],
                 'TODO': event['summary'],
-                'TAG_ID': CLOCKFIFY_TAG_IDS[str(task_str_array[2]).strip()],
+                'TAG_ID': CLOCKFIFY_ARAMETRICS_TAG_IDS[str(task_str_array[2]).strip()],
             }
             tasks.extend([task])
 

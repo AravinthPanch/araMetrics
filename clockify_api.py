@@ -18,7 +18,7 @@ def clockify_api_get_current_date_time_entries():
 
     # GET request
     r = requests.get(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_ARAMETRICS_WORKSPACE_ID + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
     time_entries = r.json()
 
     logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s\n', pformat(time_entries))
@@ -53,7 +53,7 @@ def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_dat
 
     # POST request
     response = requests.post(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/',
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_ARAMETRICS_WORKSPACE_ID + '/timeEntries/',
         headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
 
     logging.debug('clockify_api_set_time_entry : response : \n %s\n', pformat(response.text))
@@ -101,7 +101,7 @@ def clockify_api_delete_time_entry(time_entry_id):
 
     # DELETE request
     response = requests.delete(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_WORKSPACE_ID + '/timeEntries/' + time_entry_id,
+        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_ARAMETRICS_WORKSPACE_ID + '/timeEntries/' + time_entry_id,
         headers=CLOCKFIFY_HEADER)
 
     logging.debug('clockify_api_delete_time_entry : response : \n %s\n', pformat(response.text))
