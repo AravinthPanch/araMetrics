@@ -17,8 +17,9 @@ def clockify_api_get_current_date_time_entries(cal_date, workspace_id):
     "Get time entries for the given day. Clockify API is not filtering with &start=' + time_entry_start+ '&end=' + time_entry_end"
 
     # GET request
+    # Change the limit for accessing older time entries
     r = requests.get(
-        CLOCKFIFY_API + '/workspaces/' + workspace_id + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=30', headers=CLOCKFIFY_HEADER)
+        CLOCKFIFY_API + '/workspaces/' + workspace_id + '/timeEntries/user/' + CLOCKFIFY_USER_ID + '?limit=100', headers=CLOCKFIFY_HEADER)
     time_entries = r.json()
 
     logging.debug('clockify_api_get_current_date_time_entries : time_entries : \n %s\n', pformat(time_entries))
@@ -33,6 +34,8 @@ def clockify_api_get_current_date_time_entries(cal_date, workspace_id):
 
     logging.debug('clockify_api_get_current_date_time_entries : current_date_time_entries : \n %s\n',
                   pformat(current_date_time_entries))
+    logging.error('clockify_api_get_current_date_time_entries : Found %s Clockify entries on %s', len(current_date_time_entries), cal_date)
+
     return current_date_time_entries
 
 

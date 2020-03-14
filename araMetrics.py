@@ -66,26 +66,27 @@ if __name__ == '__main__':
     # Get the day of operation from commandline
     days_offset = get_commandline_arguments()
     cal_date = get_current_day_for_operation(days_offset)
+    print('=== Setting the day of operation to ' + str(cal_date))
 
     # Get the events from the calendar
+    print('\n=== Getting events from Google Calendar')
     cal_service = google_api_login()
     cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
 
     # Clean up unused events in araMetrics workspace
-    print('\n')
-    logging.error('Cleaning up unused events in Clockify')
+    print('\n=== Cleaning up unused events in Clockify')
     clean_up_time_entries(cal_service, cal_events, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
 
     # Add events from the calendar to araMetrics workspace
-    print('\n')
-    logging.error('Adding events from Google Calendar to Clockify')
+    print('\n=== Adding events from Google Calendar to Clockify')
     tasks = utils_parse_cal_events(cal_events, cal_date)
     clockify_api_set_time_entries(tasks, cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
 
     # Duplicate time entries from araMetrics workspace to dreamspace workspace
-    print('\n')
-    logging.error('Duplicating Clockify araMetrics to DreamSpace')
-    ds_cal_date = get_current_day_for_operation(1)
+    print('\n=== Duplicating Clockify araMetrics to DreamSpace')
+    print('\naraMetrics Workspace')
+    ds_cal_date = get_current_day_for_operation(2)
     arametrics_time_entries = clockify_api_get_current_date_time_entries(ds_cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+    print('\nDreamspace Workspace')
     dreamspace_time_entries = utils_parse_workspace_time_entries(arametrics_time_entries)
     clockify_api_set_time_entries(dreamspace_time_entries, ds_cal_date, CLOCKFIFY_DREAMSPACE_WORKSPACE_ID)

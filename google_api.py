@@ -58,4 +58,8 @@ def google_api_get_cal_events(cal_service, calendar_id, cal_date):
     cal_events = response.get('items', [])
 
     logging.debug('google_api_get_cal_events : response : \n %s\n', pformat(cal_events))
+
+    if calendar_id == GOOGLE_CALENDARS['TASKS_TODO']:
+        logging.error('google_api_get_cal_events : Found %s Calendar events on %s', len(cal_events), cal_date)
+
     return cal_events
