@@ -36,25 +36,21 @@ def clockify_api_get_current_date_time_entries(cal_date, workspace_id):
     return current_date_time_entries
 
 
-def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, cal_date):
+def clockify_api_set_time_entry(task_todo, taks_project_id, task_tag_id, task_start, task_end, cal_date, workspace_id):
     "Create a time entry for the given project, tag and date"
-
-    time_entry_start = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 00, 00, 01).isoformat() + 'Z'
-    time_entry_end = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 00, 00, 02).isoformat() + 'Z'
 
     # Request body
     time_entry = {
-        "start": time_entry_start,
-        "end": time_entry_end,
+        "start": task_start,
+        "end": task_end,
         "description": task_todo,
         "projectId": taks_project_id,
         "tagIds": [task_tag_id],
     }
 
     # POST request
-    response = requests.post(
-        CLOCKFIFY_API + '/workspaces/' + CLOCKFIFY_ARAMETRICS_WORKSPACE_ID + '/timeEntries/',
-        headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
+    response = requests.post(CLOCKFIFY_API + '/workspaces/' + workspace_id + '/timeEntries/',
+                             headers=CLOCKFIFY_HEADER, data=json.dumps(time_entry))
 
     logging.debug('clockify_api_set_time_entry : response : \n %s\n', pformat(response.text))
 
@@ -65,7 +61,7 @@ def clockify_api_set_time_entries(tasks_array, cal_date, workspace_id):
     # Get time entries for the given date
     current_date_time_entries = clockify_api_get_current_date_time_entries(cal_date, workspace_id)
 
-    if len(tasks_array) is 0:
+    if tasks_array is None or len(tasks_array) is 0:
         logging.error('clockify_api_set_time_entries : No tasks are found in the calendar on %s', cal_date)
         return
 
@@ -86,7 +82,8 @@ def clockify_api_set_time_entries(tasks_array, cal_date, workspace_id):
 
         # If task is not already entered as a time entry, create one.
         if is_task_already_entered == 0:
-            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'], cal_date)
+            clockify_api_set_time_entry(task['TODO'], task['PROJECT_ID'], task['TAG_ID'],
+                                        task['START'], task['END'], cal_date, workspace_id)
             tasks_already_entered_cnt = tasks_already_entered_cnt + 1
             logging.error('clockify_api_set_time_entries : A task is entered as a time entry on %s', cal_date)
 
