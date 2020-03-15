@@ -6,9 +6,23 @@ araMetrics is a personal impact measurement system to track metrics such as Awar
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
+- Save dependencie to requirements.txt
 ```
 pip freeze > requirements.txt
 ```
+
+- Install dependencie from requirements.txt
+```
+pip install -r requirements.txt
+```
+
+- Deply credentials to the server
+```
+scp credentials.json keys.py aravinth.info:~/
+```
+
+
+
 
 ## Clockify
 - API Documentation

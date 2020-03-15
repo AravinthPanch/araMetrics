@@ -13,21 +13,27 @@ from utils import *
 import sys
 
 
-def get_current_day_for_operation(days_offset):
+def get_day_of_operation(days_offset):
     "Create a datetime with the chosen day"
     days_offset = int(days_offset)
 
-    cal_date = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
-                                 datetime.datetime.now().day - days_offset).date()
+    day_of_operation = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                                         datetime.datetime.now().day - days_offset).date()
 
-    return cal_date
+    return day_of_operation
 
 
-def clean_up_time_entries(cal_service, todo_cal_events, workspace_id):
+def clean_up_time_entries(cal_service, todo_cal_events, workspace_id, day_of_operation):
     "Get events from all the calendars, merge them and cross check them with time entries in Clockify and clean up the time entries, if they are still on the calendar as tasks"
-    done_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_DONE'], cal_date)
-    progress_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_PROGRESS'], cal_date)
-    incomplete_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_INCOMPLETE'], cal_date)
+
+    days_offset = 1
+    x_day_of_operation = datetime.datetime(day_of_operation.year, day_of_operation.month,
+                                           day_of_operation.day - days_offset).date()
+
+    done_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_DONE'], x_day_of_operation)
+    progress_cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_PROGRESS'], x_day_of_operation)
+    incomplete_cal_events = google_api_get_cal_events(
+        cal_service, GOOGLE_CALENDARS['TASKS_INCOMPLETE'], x_day_of_operation)
 
     all_cal_events = []
 
@@ -45,8 +51,8 @@ def clean_up_time_entries(cal_service, todo_cal_events, workspace_id):
 
     logging.debug('clean_up_time_entries : all_cal_events : \n %s\n %s', pformat(all_cal_events), len(all_cal_events))
 
-    all_tasks = utils_parse_cal_events(all_cal_events, cal_date)
-    clockify_api_update_time_entries(all_tasks, cal_date, workspace_id)
+    all_tasks = utils_parse_cal_events(all_cal_events, x_day_of_operation)
+    clockify_api_update_time_entries(all_tasks, x_day_of_operation, workspace_id)
 
 
 def get_commandline_arguments():
@@ -60,47 +66,37 @@ def get_commandline_arguments():
         return 0
 
 
-def duplicate_to_another_workspace():
-    "Duplicate time entries from araMetrics workspace to dreamspace workspace"
-
-    print('\naraMetrics Workspace')
-    ds_cal_date = get_current_day_for_operation(2)
-    arametrics_time_entries = clockify_api_get_current_date_time_entries(ds_cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
-    print('\nDreamspace Workspace')
-    dreamspace_time_entries = utils_parse_workspace_time_entries(arametrics_time_entries)
-    clockify_api_set_time_entries(dreamspace_time_entries, ds_cal_date, CLOCKFIFY_DREAMSPACE_WORKSPACE_ID)
-
-
 if __name__ == '__main__':
     print('========== araMetrics ==========')
 
     # Get the day of operation from commandline
     days_offset = get_commandline_arguments()
-    cal_date = get_current_day_for_operation(days_offset)
-    print('=== Setting the day of operation to ' + str(cal_date))
+    day_of_operation = get_day_of_operation(days_offset)
+    print('=== Setting the day of operation to ' + str(day_of_operation))
 
     # Get the events from the calendar
     print('\n=== Getting events from Google Calendar')
     cal_service = google_api_login()
-    cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], cal_date)
+    cal_events = google_api_get_cal_events(cal_service, GOOGLE_CALENDARS['TASKS_TODO'], day_of_operation)
 
-    # Clean up unused events in araMetrics workspace
-    print('\n=== Cleaning up unused events in Clockify')
-    clean_up_time_entries(cal_service, cal_events, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+    # Clean up unused tasks on the previous day in araMetrics workspace
+    print('\n=== Cleaning up unused tasks in Clockify on the previous day')
+    clean_up_time_entries(cal_service, cal_events, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID, day_of_operation)
 
     # Add events from the calendar to araMetrics workspace
     print('\n=== Adding events from Google Calendar to Clockify')
-    tasks = utils_parse_cal_events(cal_events, cal_date)
-    clockify_api_set_time_entries(tasks, cal_date, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
+    tasks = utils_parse_cal_events(cal_events, day_of_operation)
+    clockify_api_set_time_entries(tasks, day_of_operation, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
 
     # Duplicate time entries from araMetrics workspace to dreamspace workspace
     print('\n=== Duplicating Clockify araMetrics to DreamSpace')
-    duplicate_to_another_workspace()
+    clockify_api_copy_entries_to_another_workspace(
+        day_of_operation, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID, CLOCKFIFY_DREAMSPACE_WORKSPACE_ID)
 
-    # Clean up unused day-to-day tasks
+    # Clean up unused day-to-day tasks on the previous day in araMetrics workspace
     print('\n=== Cleaning up unused day-to-day tasks')
-    clockify_clean_daily_tasks(cal_date)
+    clockify_api_clean_day_to_day_tasks(day_of_operation, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
 
-    # Create usual day-to-day tasks
+    # Create usual day-to-day tasks on the current day in araMetrics workspace
     print('\n=== Creating usual day-to-day tasks')
-    clockify_create_daily_tasks(cal_date)
+    clockify_api_create_day_to_day_tasks(day_of_operation, CLOCKFIFY_ARAMETRICS_WORKSPACE_ID)
