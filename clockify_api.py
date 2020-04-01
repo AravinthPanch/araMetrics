@@ -9,6 +9,7 @@ import json
 import datetime
 import logging
 from pprint import pformat
+from datetime import timedelta
 
 from config import *
 from utils import *
@@ -171,8 +172,7 @@ def clockify_api_clean_day_to_day_tasks(day_of_operation, workspace_id):
     "Clean up unused daily tasks"
 
     days_offset = 1
-    x_day_of_operation = datetime.datetime(day_of_operation.year, day_of_operation.month,
-                                           day_of_operation.day - days_offset).date()
+    x_day_of_operation = day_of_operation - timedelta(days=days_offset)
 
     time_entries_on_day_of_operation = clockify_api_get_time_entries_on_day_of_operation(
         x_day_of_operation, workspace_id)
@@ -195,8 +195,7 @@ def clockify_api_copy_entries_to_another_workspace(day_of_operation, workspace_1
 
     print('\naraMetrics Workspace')
     days_offset = 2
-    x_day_of_operation = datetime.datetime(day_of_operation.year, day_of_operation.month,
-                                           day_of_operation.day - days_offset).date()
+    x_day_of_operation = day_of_operation - timedelta(days=days_offset)
     workspace_1_time_entries = clockify_api_get_time_entries_on_day_of_operation(x_day_of_operation, workspace_1_id)
 
     print('\nDreamspace Workspace')
