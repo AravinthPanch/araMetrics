@@ -154,14 +154,14 @@ def clockify_api_create_day_to_day_tasks(day_of_operation, workspace_id):
     day_to_day_tasks = [
         {'summary': '#PL #LF #Sport #health'},
         {'summary': '#PL #LF #Movie #fun'},
-        {'summary': '#PL #LF #Commute #travel'},
-        {'summary': '#PL #LF #Wash #health'},
+        # {'summary': '#PL #LF #Commute #travel'},
+        # {'summary': '#PL #LF #Wash #health'},
         {'summary': '#PL #LF #Sleep #health'},
         {'summary': '#AC #LG #Learning #GK'},
+        {'summary': '#AC #LG #Khan Academy #Bio'},
         {'summary': '#AC #TK #Follow up #org'},
         {'summary': '#DS #TK #Follow up #org'},
         {'summary': '#BS #TK #Follow up #org'},
-        {'summary': '#WG #TK #Follow up #org'},
         {'summary': '#ML #TK #Follow up #org'}
     ]
     tasks = utils_parse_cal_events(day_to_day_tasks, day_of_operation)
