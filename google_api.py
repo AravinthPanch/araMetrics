@@ -49,8 +49,9 @@ def google_api_get_cal_events(cal_service, calendar_id, cal_date):
     "Get all the calendar events for the given calendar and date"
 
     # 'Z' indicates UTC time
-    time_min = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 0).isoformat() + 'Z'
-    time_max = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 23).isoformat() + 'Z'
+    # Use timeframe to cover CET and IST zone, otherwise events from other days are retrieved.
+    time_min = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 5).isoformat() + 'Z'
+    time_max = datetime.datetime(cal_date.year, cal_date.month, cal_date.day, 20).isoformat() + 'Z'
 
     # GET request
     response = cal_service.events().list(calendarId=calendar_id, timeMin=time_min, timeMax=time_max,
