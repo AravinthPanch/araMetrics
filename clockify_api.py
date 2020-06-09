@@ -158,7 +158,7 @@ def clockify_api_create_day_to_day_tasks(day_of_operation, workspace_id):
         # {'summary': '#PL #LF #Wash #health'},
         {'summary': '#PL #LF #Sleep #health'},
         {'summary': '#AC #LG #Learning #GK'},
-        {'summary': '#AC #LG #Khan Academy #Bio'},
+        {'summary': '#AC #LG #BioTech + Khan Academy #bio'},
         {'summary': '#AC #TK #Follow up #org'},
         {'summary': '#DS #TK #Follow up #org'},
         {'summary': '#BS #TK #Follow up #org'},
