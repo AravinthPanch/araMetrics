@@ -154,7 +154,7 @@ def clockify_api_create_day_to_day_tasks(day_of_operation, workspace_id):
     day_to_day_tasks = [
         {'summary': '#PL #LF #Sport #health'},
         {'summary': '#PL #LF #Movie #fun'},
-        # {'summary': '#PL #LF #Commute #travel'},
+        {'summary': '#PL #LF #Commute #travel'},
         # {'summary': '#PL #LF #Wash #health'},
         {'summary': '#PL #LF #Sleep #health'},
         {'summary': '#AC #LG #Learning #GK'},
