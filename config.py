@@ -15,6 +15,16 @@ CLOCKFIFY_API = 'https://api.clockify.me/api'
 CLOCKFIFY_HEADER = {'content-type': 'application/json', 'X-Api-Key': CLOCKFIFY_API_KEY}
 
 # araMetrics workspace
+# Projects Tags
+#AC - araCreate
+#WG - Watergenics
+#DS - DreamSpace
+#ML - MotionLab
+#BS - Berlin Senate
+#PL - Personal Life
+#BO - BatchOne
+#MR - Mirai
+
 CLOCKFIFY_ARAMETRICS_PROJECT_IDS = {
     'AC': '5e175b681cda2a26697c6afc',
     'WG': '5e17a67570e4883ef699688b',
@@ -22,8 +32,18 @@ CLOCKFIFY_ARAMETRICS_PROJECT_IDS = {
     'ML': '5e17a66b0c1cd15d4a80712b',
     'BS': '5e17a6a30c1cd15d4a807147',
     'PL': '5e17a6f770e4883ef69968cf',
-    'BO': '5ef1bc700218eb6f56fca928'
+    'BO': '5ef1bc700218eb6f56fca928',
+    'MR': '5f0399117ce08f0c088038c8'
 }
+
+# Task Type Tags
+#TK - TasK
+#ET - EvenT
+#LG - LearninG
+#TG - TeachinG
+#MM - Match Making
+#MG - MeetinG
+#LF - LiFe
 CLOCKFIFY_ARAMETRICS_TAG_IDS = {
     'TK': '5e175f7370e4883ef6993f6d',
     'ET': '5e175fad0c1cd15d4a804819',
