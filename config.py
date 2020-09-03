@@ -33,7 +33,8 @@ CLOCKFIFY_ARAMETRICS_PROJECT_IDS = {
     'BS': '5e17a6a30c1cd15d4a807147',
     'PL': '5e17a6f770e4883ef69968cf',
     'BO': '5ef1bc700218eb6f56fca928',
-    'MR': '5f0399117ce08f0c088038c8'
+    'MR': '5f0399117ce08f0c088038c8',
+    'WP': '5f50c7e93a37e35cbee141d5'
 }
 
 # Task Type Tags
