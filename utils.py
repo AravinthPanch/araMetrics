@@ -73,7 +73,7 @@ def utils_parse_workspace_time_entries(time_entries):
                 entry = {
                     'PROJECT_ID': CLOCKFIFY_DREAMSPACE_PROJECT_IDS['DS'],
                     'TODO': time_entry['description'],
-                    'TAG_ID': CLOCKFIFY_DREAMSPACE_TAG_IDS['TK'],
+                    'TAG_ID': CLOCKFIFY_DREAMSPACE_TAG_IDS['MG'],
                     'START': time_entry['timeInterval']['start'],
                     'END': time_entry['timeInterval']['end']
                 }
