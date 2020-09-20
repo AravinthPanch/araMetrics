@@ -1,0 +1,14 @@
+{
+  "name": "araquery",
+  "version": "1.0.0",
+  "description": "Map SLACK Users JSON to flat CSV for export",
+  "main": "araQuery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aravinth Panch",
+  "license": "ISC",
+  "dependencies": {
+    "json-query": "^2.2.2"
+  }
+}
