@@ -9,6 +9,7 @@
   "author": "Aravinth Panch",
   "license": "ISC",
   "dependencies": {
+    "convert-array-to-csv": "^2.0.0",
     "json-query": "^2.2.2"
   }
 }
