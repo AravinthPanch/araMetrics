@@ -7,7 +7,7 @@
     "start": "node arametrics-slack.js"
   },
   "author": "Aravinth Panch",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "convert-array-to-csv": "^2.0.0",
     "json-query": "^2.2.2"
