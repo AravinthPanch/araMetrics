@@ -1,4 +1,5 @@
 credentials.json
 token.pickle
 keys.py
-araQuery/data
+data/
+secrets/
