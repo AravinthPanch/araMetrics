@@ -3,16 +3,16 @@
 // Description   : Map SLACK Users JSON to flat CSV for export"
 
 const fs = require("fs");
-const { convertArrayToCSV } = require("convert-array-to-csv");
+const {convertArrayToCSV} = require("convert-array-to-csv");
 
-let raw_data_files = ["data/slack-ml-1.json", "data/slack-ml-2.json"];
+let raw_data_files = ["data/sheet-1.json", "data/sheet-2.json"];
 const csv_header = [
   "real_name",
   "display_name",
   "title",
   "username",
   "email",
-  "image_original",
+  "image_original"
 ];
 let users_array = [];
 let users_csv = [];
@@ -31,7 +31,7 @@ raw_data_files.forEach((raw_data_file) => {
       item.profile.title,
       item.username,
       item.profile.email,
-      item.profile.image_original,
+      item.profile.image_original
     ];
     users_array.push(user);
   });
@@ -39,14 +39,14 @@ raw_data_files.forEach((raw_data_file) => {
   // Convert the users data to CSV format
   users_csv = convertArrayToCSV(users_array, {
     header: csv_header,
-    separator: ",",
+    separator: ","
   });
 });
 
-
 // Save the CSV data to the CSV file
 console.log(users_csv);
-fs.writeFile("data/output.csv", users_csv, function (err) {
-  if (err) return console.log(err);
-  console.log('Done !!!')
+fs.writeFile("data/output.csv", users_csv, function(err) {
+  if (err)
+    return console.log(err);
+  console.log("Done !!!");
 });

@@ -1,10 +1,10 @@
 {
-  "name": "araquery",
+  "name": "arametrics-slack",
   "version": "1.0.0",
   "description": "Map SLACK Users JSON to flat CSV for export",
-  "main": "araQuery.js",
+  "main": "arametrics-slack.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node arametrics-slack.js"
   },
   "author": "Aravinth Panch",
   "license": "ISC",
