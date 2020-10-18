@@ -3,3 +3,4 @@ token.pickle
 keys.py
 data/
 secrets/
+logs/
