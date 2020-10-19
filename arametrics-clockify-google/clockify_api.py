@@ -11,7 +11,7 @@ import logging
 from pprint import pformat
 from datetime import timedelta
 
-from config import *
+from config.config import *
 from utils import *
 
 

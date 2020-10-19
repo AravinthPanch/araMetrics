@@ -15,7 +15,7 @@ import os.path
 import logging
 from pprint import pformat
 
-from config import *
+from config.config import *
 
 
 def google_api_login():

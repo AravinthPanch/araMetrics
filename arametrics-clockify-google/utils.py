@@ -29,7 +29,7 @@ import datetime
 import logging
 from pprint import pformat
 
-from config import *
+from config.config import *
 
 
 def utils_parse_cal_events(cal_events, cal_date):

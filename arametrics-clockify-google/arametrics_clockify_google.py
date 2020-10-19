@@ -9,7 +9,7 @@
 import sys
 from datetime import timedelta
 
-from config import *
+from config.config import *
 from google_api import *
 from clockify_api import *
 from utils import *
