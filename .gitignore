@@ -4,3 +4,5 @@ keys.py
 data/
 secrets/
 logs/
+!arametrics-test-app/secrets/
+!arametrics-test-app/secrets/*.py
