@@ -8,4 +8,4 @@ app_name='arametrics-test-app'
 aracloud_root='/var/www/aracloud'
 run_command='/usr/bin/pip install -r requirements.txt'
 
-cd $app_root/$app_name/app/ && $run_command 2>&1 | tee $aracloud_root/logs/$app_name.log
+cd $app_root/$app_name/app/ && $run_command 2>&1 | tee -a $aracloud_root/logs/apps-$app_name.log

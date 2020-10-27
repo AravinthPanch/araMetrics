@@ -8,4 +8,4 @@ app_name='arametrics-test-app'
 aracloud_root='/var/www/aracloud'
 run_command='/usr/bin/python arametrics_test_app.py'
 
-cd $app_root/$app_name/app/ && $run_command 2>&1 | tee $aracloud_root/logs/$app_name.log
+cd $app_root/$app_name/app/ && $run_command 2>&1 | tee -a $aracloud_root/logs/apps-$app_name.log
