@@ -2,4 +2,4 @@
 # crontab: 0 12 * * * -> at 12PM every day
 # crontab: 0 20 * * * -> at 8PM every day
 
-* * * * * root /home/aravinth/www/apps/arametrics-test-app/app/config/arametrics-test-app.sh
+* * * * * sh /home/aravinth/www/apps/arametrics-test-app/app/config/arametrics-test-app.sh
