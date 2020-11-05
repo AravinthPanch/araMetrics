@@ -2,6 +2,6 @@
 # crontab: 0 12 * * * -> at 12PM every day
 # crontab: 0 20 * * * -> at 8PM every day
 
-0 5 * * * root /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
-0 12 * * * root /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
-0 20 * * * root /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
+0 5 * * * sh /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
+0 12 * * * sh /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
+0 20 * * * sh /home/aravinth/www/apps/arametrics-clockify-google/app/config/arametrics-clockify-google.sh
