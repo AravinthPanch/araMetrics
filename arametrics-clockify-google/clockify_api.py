@@ -115,8 +115,9 @@ def clockify_api_update_time_entries(tasks_array, day_of_operation, workspace_id
     # Get time entries for the given date
     time_entries_on_day_of_operation = clockify_api_get_time_entries_on_day_of_operation(day_of_operation, workspace_id)
 
-    if len(tasks_array) is 0:
+    if tasks_array is None or len(tasks_array) is 0:
         logging.error('clockify_api_update_time_entries : No tasks are found in the calendar on %s', day_of_operation)
+        tasks_array = []
 
     if len(time_entries_on_day_of_operation) is 0:
         logging.error('clockify_api_update_time_entries : No time entries are found in clockify on %s', day_of_operation)
