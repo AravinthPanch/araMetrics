@@ -1,0 +1,5 @@
+- Go to slack webclient by WORKSPACE.slack.com
+- Find XHR such as /api/search.modules when openinin people tab
+- Find token in the header starts with xoxc
+- Go to https://api.slack.com/methods/users.list/test
+- Right click on open raw response and save link which will save a json file
