@@ -153,15 +153,15 @@ def clockify_api_create_day_to_day_tasks(day_of_operation, workspace_id):
     "Create usual day-to-day tasks such as commuting, learning, sleeping"
 
     day_to_day_tasks = [
-        {'summary': '#PL #LF #Sport #health'},
-        {'summary': '#PL #LF #Movie #fun'},
-        {'summary': '#PL #LF #Commute #travel'},
-        {'summary': '#PL #LF #Sleep #health'},
-        {'summary': '#AC #LG #Learn #bio'},
-        {'summary': '#AC #TK #Follow up #org'},
-        {'summary': '#DS #TK #Follow up #org'},
-        {'summary': '#BS #TK #Follow up #org'},
-        {'summary': '#AC #TK #Brand #araBrand'},
+        {'summary': '#PL #TK #DO SPORT #LIVE'},
+        {'summary': '#PL #TK #WATCH MOVIE #LIVE'},
+        {'summary': '#PL #TK #WATCH DOCUMENTARY #LEARN'},
+        {'summary': '#PL #TK #COMMUTE #LIVE'},
+        {'summary': '#PL #TK #SLEEP #LIVE'},
+        {'summary': '#AC #TK #LEARN LIFE SCIENCE #LEARN'},
+        {'summary': '#AC #TK #FOLLOW UP #MANAGE'},
+        {'summary': '#AC #TK #CREATE CONTENT #MAKE #ARABRAND'},
+        {'summary': '#DS #TK #FOLLOW UP #MANAGE'},
     ]
     tasks = utils_parse_cal_events(day_to_day_tasks, day_of_operation)
     clockify_api_set_time_entries(tasks, day_of_operation, workspace_id)
