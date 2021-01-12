@@ -162,6 +162,7 @@ def clockify_api_create_day_to_day_tasks(day_of_operation, workspace_id):
         {'summary': '#AC #TK #FOLLOW UP #MANAGE'},
         {'summary': '#AC #TK #CREATE CONTENT #MAKE #ARABRAND'},
         {'summary': '#DS #TK #FOLLOW UP #MANAGE'},
+        {'summary': '#AC #TK #MANAGE SOCIAL MEDIA #MANAGE #ARABRAND'},
     ]
     tasks = utils_parse_cal_events(day_to_day_tasks, day_of_operation)
     clockify_api_set_time_entries(tasks, day_of_operation, workspace_id)
